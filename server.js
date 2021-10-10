@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken');
 const utils = require('./utils');
 
 const app = express();
-const port = process.env.PORT || 4000;
- 
+const port = process.env.PORT || 5002;
+
 // static user details
 const userData = {
   userId: "123123",
@@ -24,8 +24,8 @@ app.use(cors());
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
- 
- 
+
+
 //middleware that checks if JWT token exists and verifies it if it does exist.
 //In all future routes, this helps to know if the request is authenticated or not.
 app.use(function (req, res, next) {

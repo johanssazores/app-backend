@@ -12,7 +12,7 @@ const port = process.env.PORT || 4000;
 // static user details
 const userData = {
   userId: "123123",
-  password: "Admin@123",
+  password: "123456",
   name: "Johanssen",
   username: "johanss",
   isAdmin: true

@@ -5,6 +5,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 const utils = require('./utils')
+const utilsAdmin = require('./utils-admin')
 
 const app = express()
 const port = process.env.PORT || 5002
@@ -18,11 +19,19 @@ const userData = {
   isAdmin: true
 }
 
+const userAdminData = {
+  userId: "123123",
+  password: "123456",
+  name: "Johanssen",
+  username: "johanss",
+  isAdmin: true
+}
+
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
- 
+
 app.use(function (req, res, next) {
 
   var token = req.headers['authorization'];
@@ -47,6 +56,8 @@ app.get('/', (req, res) => {
   res.send('Welcome to Project App - ' + req.user.name);
 })
 
+
+//user
 app.post('/users/signin', function (req, res) {
   const user = req.body.username;
   const pwd = req.body.password;
@@ -71,6 +82,30 @@ app.post('/users/signin', function (req, res) {
 })
 
 
+//admin
+app.post('/users-admin/signin', function (req, res) {
+  const user = req.body.username;
+  const pwd = req.body.password;
+
+  if (!user || !pwd) {
+    return res.status(400).json({
+      error: true,
+      message: "Username or Password required."
+    })
+  }
+
+  if (user !== userAdminData.username || pwd !== userAdminData.password) {
+    return res.status(401).json({
+      error: true,
+      message: "Username or Password is Wrong."
+    })
+  }
+
+  const token = utilsAdmin.generateTokenAdmin(userAdminData);
+  const userObjAdmin = utilsAdmin.getCleanUserAdmin(userAdminData);
+  return res.json({ userAdmin: userObjAdmin, token });
+})
+
 app.get('/verifyToken', function (req, res) {
 
   var token = req.body.token || req.query.token;
@@ -80,7 +115,7 @@ app.get('/verifyToken', function (req, res) {
       message: "Token is required."
     })
   }
- 
+
   jwt.verify(token, process.env.JWT_SECRET, function (err, user) {
     if (err) return res.status(401).json({
       error: true,

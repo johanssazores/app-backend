@@ -1,6 +1,5 @@
 var jwt = require('jsonwebtoken')
 
-
 function generateToken(user) {
   if (!user) return null
 

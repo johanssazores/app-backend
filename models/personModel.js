@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const divisionSchema = new mongoose.Schema(
+const personSchema = new mongoose.Schema(
   {
     division: {
       type: String, 
@@ -19,10 +19,6 @@ const divisionSchema = new mongoose.Schema(
       required: true 
     },
     dateOfBirth: { 
-      type: String, 
-      required: true 
-    },
-    address: { 
       type: String, 
       required: true 
     },
@@ -106,6 +102,6 @@ const divisionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Division = mongoose.model("division", divisionSchema);
+const Person = mongoose.model("person", personSchema);
 
-module.exports = Division;
+module.exports = Person;

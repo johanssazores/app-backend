@@ -39,6 +39,8 @@ mongoose.connect(
 // set up routes
 app.use("/auth", require("./routers/userRouter"));
 app.use("/customer", require("./routers/customerRouter"));
+app.use("/division", require("./routers/divisionRouter"));
+app.use("/person", require("./routers/personRouter"));
 
 
 const PORT = process.env.PORT || 5000;

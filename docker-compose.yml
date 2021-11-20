@@ -8,4 +8,4 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - 5002:5002
+      - 5090:5090

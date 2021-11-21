@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const divisionSchema = new mongoose.Schema(
   {
-    division: { 
-      type: String, 
-      required: true 
+    division: {
+      type: String,
+      required: true,
+      unique: true
     },
   },
   { timestamps: true }

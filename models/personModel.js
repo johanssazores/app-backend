@@ -47,7 +47,8 @@ const personSchema = new mongoose.Schema(
     }, 
     email: {
       type: String, 
-      required: true 
+      required: true,
+      unique: true
     },
     highestAttainedEducation: {
       type: String, 

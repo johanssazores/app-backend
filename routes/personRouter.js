@@ -93,28 +93,110 @@ router.post("/", async (req, res) => {
 
     const savedPerson = await newPerson.save();
 
-    // sign the token
+    res.status(200).json(savedPerson);
 
-    const token = jwt.sign(
-      {
-        user: savedPerson._id,
-      },
-      process.env.JWT_SECRET
-    );
+    // // sign the token
 
-    // send the token in a HTTP-only cookie
+    // const token = jwt.sign(
+    //   {
+    //     user: savedPerson._id,
+    //   },
+    //   process.env.JWT_SECRET
+    // );
 
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-      })
-      .status(200).json(savedPerson);
+    // // send the token in a HTTP-only cookie
+
+    // res
+    //   .cookie("token", token, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: "none",
+    //   })
+    //   .status(200).json(savedPerson);
   } catch (err) {
     console.error(err);
     res.status(500).send();
   }
+});
+
+router.post("/login", async (req, res) => {
+
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password)
+      return res
+        .status(400)
+        .json({ errorMessage: "Please enter all required fields." });
+
+    const existingPerson = await User.findOne({ email });
+    if (!existingPerson)
+      return res.status(401).json({ errorMessage: "Wrong email or password." });
+
+    const passwordCorrect = await bcrypt.compare(
+      password,
+      existingUser.passwordHash
+    );
+    if (!passwordCorrect)
+      return res.status(401).json({ errorMessage: "Wrong email or password." });
+
+
+    const token = utils.generateToken(existingPerson);
+    const userObj = utils.getCleanUser(existingPerson);
+
+    return res.json({ user: userObj, token });
+      
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+  
+});
+
+router.post('/verifyToken/person', async (req, res) => {
+
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ 
+        error: true,
+        message: "Token is required."
+      });
+    }
+
+  jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
+
+    if (err) return res.status(401).json({
+      error: true,
+      message: "Invalid token."
+    });
+
+    const username = user.username;
+
+    const existingUser = await User.findOne({ username });
+
+    const userVerify = JSON.stringify(user.userId);
+    const userVerifyData = JSON.stringify(existingUser._id);
+
+    if (userVerify !== userVerifyData) {
+       res.status(401).json({
+        error: true,
+        message: "Invalid user."
+      });
+    }
+
+    var userObj = utils.getCleanUser(user);
+
+     res.status(200).json({ user: userObj, token });
+
+  });
+      
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+ 
 });
 
 router.put("/:id", async (req, res) => {

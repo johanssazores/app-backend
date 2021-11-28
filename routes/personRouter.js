@@ -4,7 +4,7 @@ const Person = require("../models/personModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-router.post("/", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const { 
       division,
@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
     // hash the password
 
     const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // save a new user account to the db
 
@@ -88,7 +88,7 @@ router.post("/", async (req, res) => {
       onGoingMedicationMedical, 
       nameOfMedicineMedical, 
       lastHospitalMedical,
-      passwordHash
+      hashedPassword
     });
 
     const savedPerson = await newPerson.save();

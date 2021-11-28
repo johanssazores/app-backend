@@ -91,10 +91,6 @@ const personSchema = new mongoose.Schema(
     lastHospitalMedical: {
       type: String, 
     },
-    username: {
-      type: String, 
-      required: true 
-    },
     hashedPassword: {
       type: String, 
       required: true 

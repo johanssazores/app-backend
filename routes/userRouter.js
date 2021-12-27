@@ -7,7 +7,7 @@ const utils = require('../utils');
 
 router.post("/create", async (req, res) => {
   try {
-    const { email, username, password, passwordVerify, role, firstName, lastName, division } = req.body;
+    const { email, username, password, passwordVerify, role, firstName, lastName, district, barangay, address } = req.body;
 
     // validation
 
@@ -49,7 +49,9 @@ router.post("/create", async (req, res) => {
       email,
       passwordHash,
       username,
-      division,
+      district,
+      barangay,
+      address,
       role,
       firstName,
       lastName

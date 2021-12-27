@@ -2,27 +2,39 @@ const mongoose = require("mongoose");
 
 const personSchema = new mongoose.Schema(
   {
-    division: {
+    firstName: {
       type: String, 
       required: true 
     },
-    firstName: { 
+    lastName: {
       type: String, 
       required: true 
     },
-    lastName: { 
+    sex: {
       type: String, 
       required: true 
     },
-    sex: { 
+    dateOfBirth: {
       type: String, 
       required: true 
     },
-    dateOfBirth: { 
+    district: {
       type: String, 
       required: true 
     },
-    address: { 
+    barangay: {
+      type: String, 
+      required: true 
+    },
+    streetName: {
+      type: String, 
+      required: true 
+    },
+    houseNumber: {
+      type: String, 
+      required: true 
+    },
+    subdivision: {
       type: String, 
       required: true 
     },
@@ -30,10 +42,11 @@ const personSchema = new mongoose.Schema(
       type: String, 
       required: true 
     },
-    numberOfChildren: {
-      type: String, 
-    },
     citizenship: {
+      type: String, 
+      required: true 
+    },
+    phoneNumber: {
       type: String, 
       required: true 
     },
@@ -41,60 +54,74 @@ const personSchema = new mongoose.Schema(
       type: String, 
       required: true 
     },
-    phoneNumber: {
+    noOfChildren: {
       type: String, 
-      required: true 
-    }, 
+    },
     email: {
       type: String, 
-      required: true,
-      unique: true
+      required: true 
+    },
+    email: {
+      type: String, 
+      required: true 
     },
     highestAttainedEducation: {
       type: String, 
       required: true 
     },
-    statusEducation: {
-      type: String, 
-      required: true 
-    }, 
-    schoolEducation: {
-      type: String, 
-      required: true 
-    }, 
     courseEducation: {
       type: String, 
       required: true 
-    }, 
-    pregnantMedical: {
+    },
+    schoolEducation: {
       type: String, 
       required: true 
-    }, 
-    pregnantMonthsMedical: {
-      type: String, 
-    }, 
-    bloodTypeMedical: {
+    },
+    bloodType: {
       type: String, 
       required: true 
-    }, 
-    withMaintenanceMedical: {
-      type: String, 
-      required: true 
-    }, 
-    onGoingMedicationMedical: {
-      type: String, 
-      required: true 
-    }, 
-    nameOfMedicineMedical: {
-      type: String, 
-    }, 
-    lastHospitalMedical: {
+    },
+    pregnant: {
       type: String, 
     },
-    hashedPassword: {
+    monthsPregnant: {
+      type: String, 
+    },
+    withMaintenance: {
       type: String, 
       required: true 
-    }
+    },
+    onGoingMedication: {
+      type: String, 
+      required: true 
+    },
+    nameOfMedicine: {
+      type: String, 
+    },
+    oftenCheckUp: {
+      type: String, 
+      required: true 
+    },
+    lastHospitalVisit: {
+      type: String, 
+    },
+    smoking: {
+      type: String, 
+      required: true 
+    },
+    packsPerDay: {
+      type: String, 
+    },
+    drinking: {
+      type: String, 
+      required: true 
+    },
+    frequencyDrinking: {
+      type: String, 
+    },
+    conditionDisease: {
+      type: String, 
+    },
   },
   { timestamps: true }
 );

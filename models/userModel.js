@@ -18,7 +18,13 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String
   },
-  division: {
+  district: {
+    type: String
+  },
+  barangay: {
+    type: String
+  },
+  address: {
     type: String
   },
   firstName: {

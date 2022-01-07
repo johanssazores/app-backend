@@ -3,125 +3,136 @@ const mongoose = require("mongoose");
 const personSchema = new mongoose.Schema(
   {
     firstName: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     lastName: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     sex: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     dateOfBirth: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     district: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     barangay: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     streetName: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     houseNumber: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     subdivision: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     maritalStatus: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     citizenship: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     phoneNumber: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     religion: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     noOfChildren: {
-      type: String, 
+      type: String,
     },
     email: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     email: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     highestAttainedEducation: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     courseEducation: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     schoolEducation: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     bloodType: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     pregnant: {
-      type: String, 
+      type: String,
     },
     monthsPregnant: {
-      type: String, 
+      type: String,
     },
     withMaintenance: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     onGoingMedication: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     nameOfMedicine: {
-      type: String, 
+      type: String,
     },
     oftenCheckUp: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     lastHospitalVisit: {
-      type: String, 
+      type: String,
     },
     smoking: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     packsPerDay: {
-      type: String, 
+      type: String,
     },
     drinking: {
-      type: String, 
-      required: true 
+      type: String,
+      required: true
     },
     frequencyDrinking: {
-      type: String, 
+      type: String,
     },
     conditionDisease: {
-      type: String, 
+      type: String,
     },
+    sourceOfIncome: {
+      type: String,
+    },
+    estimatedYearlyIncome: {
+      type: String,
+    },
+    yearOfGraduation: {
+      type: String,
+    },
+
+
   },
   { timestamps: true }
 );

@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/create", async (req, res) => {
   try {
-    const { 
+    const {
       firstName,
       lastName,
       sex,
@@ -39,6 +39,9 @@ router.post("/create", async (req, res) => {
       drinking,
       frequencyDrinking,
       conditionDisease,
+      sourceOfIncome,
+      estimatedYearlyIncome,
+      yearOfGraduation,
       password,
       passwordVerify
     } = req.body;
@@ -106,6 +109,9 @@ router.post("/create", async (req, res) => {
       drinking,
       frequencyDrinking,
       conditionDisease,
+      sourceOfIncome,
+      estimatedYearlyIncome,
+      yearOfGraduation,
       hashedPassword
     });
 
@@ -163,12 +169,12 @@ router.post("/login", async (req, res) => {
     const userObj = utils.getCleanUser(existingPerson);
 
     return res.json({ user: userObj, token });
-      
+
   } catch (err) {
     console.error(err);
     res.status(500).send();
   }
-  
+
 });
 
 router.post('/verifyToken/person', async (req, res) => {
@@ -177,7 +183,7 @@ router.post('/verifyToken/person', async (req, res) => {
     const { token } = req.body;
 
     if (!token) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: true,
         message: "Token is required."
       });
@@ -209,12 +215,12 @@ router.post('/verifyToken/person', async (req, res) => {
      res.status(200).json({ user: userObj, token });
 
   });
-      
+
   } catch (err) {
     console.error(err);
     res.status(500).send();
   }
- 
+
 });
 
 router.put("/:id", async (req, res) => {

@@ -141,6 +141,7 @@ app.get('/verifyToken', function (req, res) {
 app.use("/user", require("./routes/userRouter"));
 app.use("/person", require("./routes/personRouter"));
 app.use("/movement", require("./routes/movementRouter"));
+app.use("/scanner", require("./routes/scannerRouter"));
 
 app.listen(port, () => {
   console.log('Server started on: ' + port);

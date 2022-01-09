@@ -9,8 +9,6 @@ router.post("/create", async (req, res) => {
   try {
     const { email, username, password, passwordVerify, role, firstName, lastName, district, barangay, address } = req.body;
 
-    // validation
-
     if (!email || !password || !passwordVerify)
       return res
         .status(400)
@@ -38,12 +36,9 @@ router.post("/create", async (req, res) => {
         errorMessage: "An account with this username already exists.",
     });
 
-    // hash the password
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-
-    // save a new user account to the db
 
     const newUser = new User({
       email,
@@ -137,8 +132,7 @@ router.post('/verifyToken/admin', async (req, res) => {
     }
 
     var userObj = utils.getCleanUser(user);
-
-     res.status(200).json({ user: userObj, token });
+    res.status(200).json({ user: userObj, token });
 
   });
       

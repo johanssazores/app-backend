@@ -1,10 +1,7 @@
 var jwt = require('jsonwebtoken');
 
-
 function generateToken(userAdmin) {
-
   if (!userAdmin) return null;
-
   var u = {
     userId: userAdmin._id,
     username: userAdmin.username,
@@ -15,7 +12,6 @@ function generateToken(userAdmin) {
     firstName: userAdmin.firstName,
     lastName: userAdmin.lastName,
   };
-
   return jwt.sign(u, process.env.JWT_SECRET, {
     expiresIn: 60 * 60 * 24 
   });
@@ -34,7 +30,6 @@ function getCleanUser(userAdmin) {
     lastName: userAdmin.lastName,
   };
 }
-
 
 function generatePersonToken(user) {
 

@@ -13,7 +13,7 @@ function generateToken(userAdmin) {
     lastName: userAdmin.lastName,
   };
   return jwt.sign(u, process.env.JWT_SECRET, {
-    expiresIn: 60 * 60 * 24 
+    expiresIn: 60 * 60 * 24
   });
 }
 
@@ -31,6 +31,45 @@ function getCleanUser(userAdmin) {
   };
 }
 
+
+function generateScannerToken(user) {
+  if (!user) return null;
+  var u = {
+    id: user._id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    branch: user.branch,
+    locationName: user.locationName,
+  };
+
+  return jwt.sign(u, process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24
+  });
+}
+
+function generateCleanScannerToken(user) {
+  if (!user) return null;
+  return {
+     id: user._id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    branch: user.branch,
+    locationName: user.locationName,
+  };
+}
+
+module.exports = {
+  generateToken,
+  getCleanUser,
+  generatePersonToken,
+  getCleanPerson
+}
+
+
+
+
 function generatePersonToken(user) {
 
   if (!user) return null;
@@ -42,7 +81,7 @@ function generatePersonToken(user) {
   };
 
   return jwt.sign(u, process.env.JWT_SECRET, {
-    expiresIn: 60 * 60 * 24 
+    expiresIn: 60 * 60 * 24
   });
 }
 
@@ -60,5 +99,7 @@ module.exports = {
   generateToken,
   getCleanUser,
   generatePersonToken,
-  getCleanPerson
+  getCleanPerson,
+  generateScannerToken,
+  generateCleanScannerToken
 }

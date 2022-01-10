@@ -6,7 +6,15 @@ const utils = require('../utils');
 
 router.post("/create", async (req, res) => {
   try {
-    const { email, username, password, passwordVerify, role, firstName, lastName, district, barangay, address } = req.body;
+    const {
+      email,
+      locationName,
+      password,
+      passwordVerify,
+      branch,
+      firstName,
+      lastName
+      } = req.body;
 
     if (!email || !password || !passwordVerify)
       return res
@@ -29,10 +37,10 @@ router.post("/create", async (req, res) => {
         errorMessage: "An account with this email already exists.",
     });
 
-    const existingUserUsername = await Scanner.findOne({ username });
-    if (existingUserUsername)
+    const existingUserScanner = await Scanner.findOne({ email });
+    if (existingUserScanner)
       return res.status(400).json({
-        errorMessage: "An account with this username already exists.",
+        errorMessage: "An account with this email already exists.",
     });
 
 
@@ -41,18 +49,15 @@ router.post("/create", async (req, res) => {
 
     const newScanner = new Scanner({
       email,
+      locationName,
       passwordHash,
-      username,
-      district,
-      barangay,
-      address,
-      role,
+      branch,
       firstName,
       lastName
     });
 
     const savedScanner = await newScanner.save();
-    
+
     res.status(200).json(savedScanner);
 
   } catch (err) {
@@ -65,62 +70,62 @@ router.post("/create", async (req, res) => {
 router.post("/login", async (req, res) => {
 
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password)
+    if (!email || !password)
       return res
         .status(400)
         .json({ errorMessage: "Please enter all required fields." });
 
-    const existingScanner = await Scanner.findOne({ username });
+    const existingScanner = await Scanner.findOne({ email });
+
     if (!existingScanner)
-      return res.status(401).json({ errorMessage: "Wrong username or password." });
+      return res.status(401).json({ errorMessage: "No User Found" });
 
     const passwordCorrect = await bcrypt.compare(
       password,
       existingScanner.passwordHash
     );
+
     if (!passwordCorrect)
-      return res.status(401).json({ errorMessage: "Wrong username or password." });
+      return res.status(401).json({ errorMessage: "Wrong email or password." });
 
+    const tokenScanner = utils.generateScannerToken(existingScanner);
+    const userObj = utils.generateCleanScannerToken(existingScanner);
 
-    const token = utils.generateToken(existingScanner);
-    const userObj = utils.getCleanUser(existingScanner);
+    return res.json({ scanner: userObj, tokenScanner });
 
-    return res.json({ scanner: userObj, token });
-      
   } catch (err) {
     console.error(err);
     res.status(500).send();
   }
-  
+
 });
 
-// verify the token and return it if it's valid
 router.post('/verifyToken/admin', async (req, res) => {
 
   try {
-    const { token } = req.body;
+    const { tokenScanner } = req.body;
 
-    if (!token) {
+    if (!tokenScanner) {
       return res.status(400).json({
         error: true,
         message: "Token is required."
       });
     }
 
-  jwt.verify(token, process.env.JWT_SECRET, async (err, scanner) => {
+  jwt.verify(tokenScanner, process.env.JWT_SECRET, async (err, scanner) => {
 
     if (err) return res.status(401).json({
       error: true,
       message: "Invalid token."
     });
 
-    const username = scanner.username;
+    const email = scanner.email;
 
-    const existingUser = await Scanner.findOne({ username });
+    const existingUser = await Scanner.findOne({ email });
 
-    const userVerify = JSON.stringify(scanner.userId);
+    const userVerify = JSON.stringify(scanner.id);
     const userVerifyData = JSON.stringify(existingUser._id);
 
     if (userVerify !== userVerifyData) {
@@ -130,16 +135,16 @@ router.post('/verifyToken/admin', async (req, res) => {
       });
     }
 
-    var userObj = utils.getCleanUser(scanner);
-    res.status(200).json({ scanner: userObj, token });
+    var userObj = utils.generateCleanScannerToken(scanner);
+    res.status(200).json({ scanner: userObj, tokenScanner });
 
   });
-      
+
   } catch (err) {
     console.error(err);
     res.status(500).send();
   }
- 
+
 });
 
 router.get("/", async (req, res) => {
@@ -164,15 +169,15 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    
-      const updatedUser = await Scanner.findByIdAndUpdate(
+
+      const updatedScanner = await Scanner.findByIdAndUpdate(
         req.params.id,
         {
           $set: req.body,
         },
         { new: true }
       );
-      res.status(200).json(updatedUser);
+      res.status(200).json(updatedScanner);
 
   } catch(err) {
       res.status(500).json(err);

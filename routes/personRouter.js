@@ -41,40 +41,20 @@ router.post("/create", async (req, res) => {
       conditionDisease,
       sourceOfIncome,
       estimatedYearlyIncome,
-      yearOfGraduation,
-      password,
-      passwordVerify
+      yearOfGraduation
     } = req.body;
 
-    // validation
 
-    if (!email || !password || !passwordVerify)
+    if (!email)
       return res
         .status(400)
         .json({ errorMessage: "Please enter all required fields." });
-
-    if (password.length < 6)
-      return res.status(400).json({
-        errorMessage: "Please enter a password of at least 6 characters.",
-      });
-
-    if (password !== passwordVerify)
-      return res.status(400).json({
-        errorMessage: "Please enter the same password twice.",
-      });
 
     const existingPerson = await Person.findOne({ email });
     if (existingPerson)
       return res.status(400).json({
         errorMessage: "An account with this email already exists.",
       });
-
-    // hash the password
-
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // save a new user account to the db
 
     const newPerson = new Person({
       firstName,
@@ -112,31 +92,12 @@ router.post("/create", async (req, res) => {
       sourceOfIncome,
       estimatedYearlyIncome,
       yearOfGraduation,
-      hashedPassword
     });
 
     const savedPerson = await newPerson.save();
 
     res.status(200).json(savedPerson);
 
-    // // sign the token
-
-    // const token = jwt.sign(
-    //   {
-    //     user: savedPerson._id,
-    //   },
-    //   process.env.JWT_SECRET
-    // );
-
-    // // send the token in a HTTP-only cookie
-
-    // res
-    //   .cookie("token", token, {
-    //     httpOnly: true,
-    //     secure: true,
-    //     sameSite: "none",
-    //   })
-    //   .status(200).json(savedPerson);
   } catch (err) {
     console.error(err);
     res.status(500).send();

@@ -29,6 +29,14 @@ const movementSchema = new mongoose.Schema(
     time: {
       type: String,
       required: true,
+    },
+    locationName: {
+      type: String,
+      required: true,
+    },
+    branch: {
+      type: String,
+      required: true,
     }
   },
   { timestamps: true }

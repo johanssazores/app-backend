@@ -46,13 +46,39 @@ router.post("/user", async (req, res) => {
 });
 
 
-router.get("/test", async (req, res) => {
+router.get("/all-analytics", async (req, res) => {
   try {
-    const persons = await Person.find({
-      streetName: "Don Crispulo"
-    });
+    // const persons = await Person.find({
+    //   streetName: "Don Crispulo",
+    // });
 
-    res.json(persons);
+    const personsCounts = await Person.find({
+    }).countDocuments();
+
+    const personsCountsPregnant = await Person.find({
+      pregnant: "Yes"
+    }).countDocuments();
+
+    const personsCountsMaintenance = await Person.find({
+      withMaintenance: "Yes"
+    }).countDocuments();
+
+    const personsCountsMale = await Person.find({
+      sex: "Male"
+    }).countDocuments();
+    
+    const personsCountsFemale = await Person.find({
+      sex: "Female"
+    }).countDocuments();
+
+
+    res.json([
+      personsCounts, 
+      personsCountsPregnant,
+      personsCountsMaintenance,
+      personsCountsMale,
+      personsCountsFemale
+    ]);
   } catch (err) {
     console.error(err);
     res.status(500).send();

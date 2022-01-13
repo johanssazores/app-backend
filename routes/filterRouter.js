@@ -33,6 +33,16 @@ router.post("/street", async (req, res) => {
   }
 });
 
+router.post("/all", async (req, res) => {
+  try {
+    const personsCounts = await Person.find({}).countDocuments();
+    res.json(personsCounts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
+});
+
 router.post("/user", async (req, res) => {
   try {
     const users = await User.find({
@@ -44,6 +54,7 @@ router.post("/user", async (req, res) => {
     res.status(500).send();
   }
 });
+
 
 
 router.post("/all-analytics", async (req, res) => {
@@ -58,8 +69,9 @@ router.post("/all-analytics", async (req, res) => {
     if (req.body.startDate) sharedFilter.createdAt.$gte = req.body.startDate;
     if (req.body.endDate) sharedFilter.createdAt.$lte = req.body.endDate;
     
-    const personsCounts = await Person.find({
-    }).countDocuments();
+    // const personsCounts = await Person.find({
+      
+    // }).countDocuments();
 
     const personsCountsPregnant = await Person.find({
       ...sharedFilter,
@@ -81,12 +93,24 @@ router.post("/all-analytics", async (req, res) => {
       sex: "Female"
     }).countDocuments();
 
+    const personsCountsSmoking = await Person.find({
+      ...sharedFilter,
+      smoking: "Yes"
+    }).countDocuments();
+
+    const personsCountsDrinking = await Person.find({
+      ...sharedFilter,
+      smoking: "Yes"
+    }).countDocuments();
+
     res.json([
-      personsCounts, 
+      // personsCounts, 
       personsCountsPregnant,
       personsCountsMaintenance,
       personsCountsMale,
-      personsCountsFemale
+      personsCountsFemale,
+      personsCountsSmoking,
+      personsCountsDrinking
     ]);
   } catch (err) {
     console.error(err);

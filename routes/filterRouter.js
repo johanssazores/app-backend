@@ -56,19 +56,35 @@ router.get("/all-analytics", async (req, res) => {
     }).countDocuments();
 
     const personsCountsPregnant = await Person.find({
-      pregnant: "Yes"
+      pregnant: "Yes",
+      createdAt: {
+        $gte: req.query.startDate,
+        $lte: req.query.endDate
+      }
     }).countDocuments();
 
     const personsCountsMaintenance = await Person.find({
-      withMaintenance: "Yes"
+      withMaintenance: "Yes",
+      createdAt: {
+        $gte: req.query.startDate,
+        $lte: req.query.endDate
+      }
     }).countDocuments();
 
     const personsCountsMale = await Person.find({
-      sex: "Male"
+      sex: "Male",
+      createdAt: {
+        $gte: req.query.startDate,
+        $lte: req.query.endDate
+      }
     }).countDocuments();
     
     const personsCountsFemale = await Person.find({
-      sex: "Female"
+      sex: "Female",
+      createdAt: {
+        $gte: req.query.startDate,
+        $lte: req.query.endDate
+      }
     }).countDocuments();
 
 

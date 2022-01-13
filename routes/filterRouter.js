@@ -46,47 +46,40 @@ router.post("/user", async (req, res) => {
 });
 
 
-router.get("/all-analytics", async (req, res) => {
+router.post("/all-analytics", async (req, res) => {
   try {
-    // const persons = await Person.find({
-    //   streetName: "Don Crispulo",
-    // });
+    const sharedFilter = {};
 
+    if (req.body.address && req.body.role === 'QC-BARANGAY-DPO') {
+      sharedFilter.streetName = req.body.address;
+    }
+
+    if (req.body.startDate || req.body.endDate) sharedFilter.createdAt = {};
+    if (req.body.startDate) sharedFilter.createdAt.$gte = req.body.startDate;
+    if (req.body.endDate) sharedFilter.createdAt.$lte = req.body.endDate;
+    
     const personsCounts = await Person.find({
     }).countDocuments();
 
     const personsCountsPregnant = await Person.find({
+      ...sharedFilter,
       pregnant: "Yes",
-      createdAt: {
-        $gte: req.query.startDate,
-        $lte: req.query.endDate
-      }
     }).countDocuments();
 
     const personsCountsMaintenance = await Person.find({
-      withMaintenance: "Yes",
-      createdAt: {
-        $gte: req.query.startDate,
-        $lte: req.query.endDate
-      }
+      ...sharedFilter,
+      withMaintenance: "Yes"
     }).countDocuments();
 
     const personsCountsMale = await Person.find({
-      sex: "Male",
-      createdAt: {
-        $gte: req.query.startDate,
-        $lte: req.query.endDate
-      }
+      ...sharedFilter,
+      sex: "Male"
     }).countDocuments();
     
     const personsCountsFemale = await Person.find({
-      sex: "Female",
-      createdAt: {
-        $gte: req.query.startDate,
-        $lte: req.query.endDate
-      }
+      ...sharedFilter,
+      sex: "Female"
     }).countDocuments();
-
 
     res.json([
       personsCounts, 
